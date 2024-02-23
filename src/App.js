@@ -14,6 +14,11 @@ function App() {
     console.log(toDos);
     setToDo("");
   };
+
+  const deleteBtn = (event) => {
+    const li = event.target.parentElement;
+    li.remove();
+  };
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -28,7 +33,9 @@ function App() {
       <hr />
       <ul>
         {toDos.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={index}>
+            {item} <button onClick={deleteBtn}>X</button>
+          </li>
         ))}
       </ul>
     </div>
