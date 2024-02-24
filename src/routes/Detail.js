@@ -1,15 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Info from "../components/Info";
+
 function Detail() {
-  const getMovie = async () => {
+  const { id } = useParams();
+  const [info, setInfo] = useState();
+  const getCharacter = async () => {
     const json = await (
-      await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+      await fetch(
+        `https://marvel-proxy.nomadcoders.workers.dev/v1/public/characters/${id}`
+      )
     ).json();
-    console.log(json);
+    setInfo(json.data.results);
   };
+
   useEffect(() => {
-    getMovie();
+    getCharacter();
   }, []);
-  return <h1>Detail</h1>;
+
+  return (
+    <div>
+      {info?.map((info) => (
+        <Info
+          key={info.id}
+          id={info.id}
+          thumbnail={`${info.thumbnail.path}.${info.thumbnail.extension}`}
+          name={info.name}
+          description={info.description}
+        />
+      ))}
+    </div>
+  );
 }
 export default Detail;

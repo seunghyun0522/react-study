@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Movie from "../components/Movie";
 
 function Home() {
@@ -7,29 +7,33 @@ function Home() {
   const getMovies = async () => {
     const json = await (
       await fetch(
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year`
+        `https://marvel-proxy.nomadcoders.workers.dev/v1/public/characters?limit=50&orderBy=modified&series=24229,1058,2023`
       )
     ).json();
-    setMovies(json.data.movies);
+    console.log(json.data.results);
+    setMovies(json.data.results);
+    console.log(movies);
     setLoading(false);
   };
   useEffect(() => {
     getMovies();
   }, []);
+
   return (
     <div>
       {loading ? (
-        <h1>Loading...</h1>
+        <div>
+          <span>Loading...</span>
+        </div>
       ) : (
         <div>
           {movies.map((movie) => (
             <Movie
               key={movie.id}
               id={movie.id}
-              coverImg={movie.medium_cover_image}
-              title={movie.title}
-              summary={movie.summary}
-              genres={movie.genres}
+              thumbnail={`${movie.thumbnail.path}.${movie.thumbnail.extension}`}
+              name={movie.name}
+              description={movie.description}
             />
           ))}
         </div>
@@ -37,4 +41,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
