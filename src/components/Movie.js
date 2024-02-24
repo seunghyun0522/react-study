@@ -1,20 +1,17 @@
 import proTypes from "prop-types";
 import { Link } from "react-router-dom";
-
+import styles from "./Movie.module.css";
 function Movie({ id, thumbnail, name, description }) {
   return (
-    <div>
-      <Link to={`/movie/${id}`}>
-        <img src={thumbnail} alt={name} />
+    <div className={styles.movie}>
+      <Link to={`/movie/${id}`} className={styles.movies__back}>
+        <img src={thumbnail} alt={name} className={styles.movie__img} />
 
-        <h2>{name}</h2>
+        <h2 className={styles.movie__name}>{name}</h2>
 
-        <p>
+        <p className={styles.description}>
           {description.length < 10 ? (
-            <p>
-              There is no data on the description. But it's a really fun movie,
-              so make sure to watch it!
-            </p>
+            <p>There is no data on the description.</p>
           ) : (
             `${description.slice(0, 80)}...`
           )}
